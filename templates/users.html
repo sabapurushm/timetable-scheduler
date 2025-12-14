@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>User Management</h3>
+  <a href="{{ url_for('create_user') }}" class="btn btn-success">+ New User</a>
+</div>
+
+{% if users %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td>{{ u['id'] }}</td>
+      <td>{{ u['username'] }}</td>
+      <td>{{ u['role'] }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No users found.</p>
+{% endif %}
+
+<p class="text-muted small mt-3">
+  Only ADMIN can access this page. Roles can be:
+  <code>ADMIN</code>, <code>HOD</code>, <code>COORDINATOR</code> (or any text you decide).
+</p>
+{% endblock %}

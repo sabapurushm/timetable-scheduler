@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Timetable: {{ t['name'] }}</h3>
+  <div>
+    <form method="post"
+          action="{{ url_for('change_status', timetable_id=t['id'], new_status='UNDER_REVIEW') }}"
+          class="d-inline">
+      <button class="btn btn-warning btn-sm"
+              {% if t['status'] == 'UNDER_REVIEW' %}disabled{% endif %}>
+        Send for Review
+      </button>
+    </form>
+
+    <form method="post"
+          action="{{ url_for('change_status', timetable_id=t['id'], new_status='APPROVED') }}"
+          class="d-inline">
+      <button class="btn btn-success btn-sm"
+              {% if t['status'] == 'APPROVED' %}disabled{% endif %}>
+        Approve
+      </button>
+    </form>
+
+    <span class="badge bg-info ms-2">Status: {{ t['status'] }}</span>
+  </div>
+</div>
+
+<p>
+  <b>Department:</b> {{ t['department'] }} |
+  <b>Shift:</b> {{ t['shift'] }}
+</p>
+
+{% if options and current_option %}
+  <div class="mb-3">
+    <span>Timetable Option:</span>
+    {% for i in range(options|length) %}
+      {% if i == option_index %}
+        <span class="badge bg-primary ms-1">Option {{ i+1 }}</span>
+      {% else %}
+        <a class="btn btn-outline-primary btn-sm ms-1"
+           href="{{ url_for('view_timetable', timetable_id=t['id'], option=i) }}">
+          Option {{ i+1 }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% set days_list = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] %}
+  {% set num_days = current_option['num_days'] %}
+  {% set slots_per_day = current_option['slots_per_day'] %}
+  {% set batches = current_option['batches'] %}
+  {% set tt = current_option['timetable'] %}
+
+  {% for batch in batches %}
+    <h5 class="mt-4">Batch: {{ batch }}</h5>
+    <table class="table table-bordered table-sm align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Day / Slot</th>
+          {% for s in range(slots_per_day) %}
+            <th>Slot {{ s+1 }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for d in range(num_days) %}
+        <tr>
+          <th>{{ days_list[d] }}</th>
+          {% set day_map = tt.get(batch, {}).get(d, {}) %}
+          {% for s in range(slots_per_day) %}
+            {% set cell = day_map.get(s) %}
+            {% if cell %}
+              <td>
+                <strong>{{ cell.subject }}</strong><br>
+                Room: {{ cell.room }}<br>
+                Faculty: {{ cell.faculty }}
+                {% if cell.special %}
+                  <span class="badge bg-warning text-dark ms-1">Fixed</span>
+                {% endif %}
+              </td>
+            {% else %}
+              <td class="text-muted">Free</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+
+  <div class="mt-4">
+    <h5>Scheduler Suggestions</h5>
+    <pre class="bg-light p-3" style="white-space: pre-wrap;">{{ suggestions }}</pre>
+  </div>
+
+{% else %}
+  <p>No timetable options stored.</p>
+{% endif %}
+
+{% endblock %}

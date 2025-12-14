@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Create New Timetable</h3>
+<form method="post">
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Timetable Name</label>
+      <input type="text" name="name" class="form-control" placeholder="UG Sem 3 - CSE/ECE" required>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Department</label>
+      <input type="text" name="department" class="form-control" placeholder="ECE">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Shift</label>
+      <input type="text" name="shift" class="form-control" placeholder="Morning / Evening / Regular">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Days per Week</label>
+      <input type="number" name="num_days" value="5" min="1" max="7" class="form-control">
+      <small class="text-muted">0 = Monday, 4 = Friday in scheduler</small>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Slots per Day</label>
+      <input type="number" name="slots_per_day" value="6" min="1" max="10" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Max Classes per Day (per batch)</label>
+      <input type="number" name="max_classes_per_day" value="5" min="1" max="10" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Rooms (one per line: name,capacity,type)</label>
+    <textarea name="rooms" class="form-control" rows="4" required>R101,60,classroom
+R102,60,classroom
+LAB1,30,lab
+LAB2,30,lab</textarea>
+    <small class="text-muted">Example: R101,60,classroom</small>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Batches (one per line: name,size)</label>
+    <textarea name="batches" class="form-control" rows="3" required>ECE-A,60
+ECE-B,60</textarea>
+    <small class="text-muted">Example: ECE-A,60</small>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Subjects (one per line: code,name,batch,classes_per_week,type,faculty)</label>
+    <textarea name="subjects" class="form-control" rows="8" required>EC101,Network Theory,ECE-A,3,theory,Dr. Rao
+EC101,Network Theory,ECE-B,3,theory,Dr. Rao
+EC102,Signals & Systems,ECE-A,3,theory,Dr. Mehta
+EC102,Signals & Systems,ECE-B,3,theory,Dr. Mehta
+EC103,Analog Circuits Lab,ECE-A,2,lab,Prof. Kiran
+EC103,Analog Circuits Lab,ECE-B,2,lab,Prof. Kiran</textarea>
+    <small class="text-muted">
+      Example: EC101,Network Theory,ECE-A,3,theory,Dr. Rao
+    </small>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">
+      Special Fixed Slots (optional: day,slot,batch,subject,room,faculty)
+    </label>
+    <textarea name="special_slots" class="form-control" rows="3">0,1,ECE-A,Department Meeting,SEMINAR,HoD
+2,3,ECE-B,Guest Lecture,SEMINAR,Guest</textarea>
+    <small class="text-muted">
+      day=0..(days-1), slot=0..(slots_per_day-1)
+    </small>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Generate Timetable</button>
+</form>
+{% endblock %}
