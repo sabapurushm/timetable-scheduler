@@ -1,35 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h3>User Management</h3>
-  <a href="{{ url_for('create_user') }}" class="btn btn-success">+ New User</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div>
+    <h3 class="page-title mb-0">User Management</h3>
+    <p class="text-muted small mb-0">Create and manage admin, HoD, and coordinator accounts.</p>
+  </div>
+  <a href="{{ url_for('create_user') }}" class="btn btn-primary">
+    <i class="bi bi-person-plus me-1"></i>New User
+  </a>
 </div>
 
-{% if users %}
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Role</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for u in users %}
-    <tr>
-      <td>{{ u['id'] }}</td>
-      <td>{{ u['username'] }}</td>
-      <td>{{ u['role'] }}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<p>No users found.</p>
-{% endif %}
-
-<p class="text-muted small mt-3">
-  Only ADMIN can access this page. Roles can be:
-  <code>ADMIN</code>, <code>HOD</code>, <code>COORDINATOR</code> (or any text you decide).
-</p>
+<div class="app-card shadow-sm p-3">
+  {% if users %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td class="text-muted">#{{ u['id'] }}</td>
+          <td class="fw-semibold">{{ u['username'] }}</td>
+          <td>
+            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+              {{ u['role'] }}
+            </span>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-muted mb-0">No users found.</p>
+  {% endif %}
+</div>
 {% endblock %}

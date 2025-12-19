@@ -1,8 +1,95 @@
+/* Page background */
 body {
-    background-color: #f5f7fa;
+    background: linear-gradient(135deg, #eef2f7 0%, #f8fafc 40%, #eef2f7 100%);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-table.table td,
-table.table th {
+/* Navbar */
+.app-navbar {
+    background: #111827;
+}
+
+/* Layout */
+.app-main-wrapper {
+    min-height: calc(100vh - 56px - 48px);
+}
+
+.app-footer {
+    background: transparent;
+}
+
+/* Cards & general UI */
+.app-card {
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+.page-title {
+    font-weight: 600;
+}
+
+/* Logo circle on login */
+.app-logo-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #2563eb;
+}
+
+/* Flash messages container */
+.flash-container {
+    margin-bottom: 1rem;
+}
+
+/* Mono textarea */
+.app-mono-textarea {
+    font-family: "Fira Code", "Consolas", monospace;
     font-size: 0.85rem;
+}
+
+/* Timetable cells */
+.timetable-table th,
+.timetable-table td {
+    font-size: 0.82rem;
+}
+
+.timetable-cell {
+    background-color: #f8fafc;
+    border-radius: 6px;
+}
+
+.timetable-free {
+    background-color: #f3f4f6;
+}
+
+/* Suggestions block */
+.app-pre {
+    border-radius: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+/* Status badge dot colors */
+.status-badge {
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    background-color: #f3f4f6;
+    font-size: 0.8rem;
+}
+
+.status-approved {
+    color: #16a34a;
+}
+
+.status-under_review {
+    color: #d97706;
+}
+
+.status-draft {
+    color: #6b7280;
 }

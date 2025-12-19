@@ -1,78 +1,97 @@
 {% extends "base.html" %}
 {% block content %}
-<h3>Create New Timetable</h3>
-<form method="post">
-  <div class="row">
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Timetable Name</label>
-      <input type="text" name="name" class="form-control" placeholder="UG Sem 3 - CSE/ECE" required>
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Department</label>
-      <input type="text" name="department" class="form-control" placeholder="ECE">
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Shift</label>
-      <input type="text" name="shift" class="form-control" placeholder="Morning / Evening / Regular">
-    </div>
-  </div>
+<div class="page-header mb-3">
+  <h3 class="page-title mb-0">Create New Timetable</h3>
+  <p class="text-muted small mb-0">
+    Define rooms, batches, subjects and constraints. The system will generate optimized options.
+  </p>
+</div>
 
-  <div class="row">
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Days per Week</label>
-      <input type="number" name="num_days" value="5" min="1" max="7" class="form-control">
-      <small class="text-muted">0 = Monday, 4 = Friday in scheduler</small>
+<div class="app-card shadow-sm p-4">
+  <form method="post">
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <label class="form-label small">Timetable Name</label>
+        <input type="text" name="name" class="form-control" placeholder="UG ECE 1st Year - Sem 1" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small">Department</label>
+        <input type="text" name="department" class="form-control" placeholder="ECE">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small">Shift</label>
+        <input type="text" name="shift" class="form-control" placeholder="Regular / Morning / Evening">
+      </div>
     </div>
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Slots per Day</label>
-      <input type="number" name="slots_per_day" value="6" min="1" max="10" class="form-control">
-    </div>
-    <div class="col-md-4 mb-3">
-      <label class="form-label">Max Classes per Day (per batch)</label>
-      <input type="number" name="max_classes_per_day" value="5" min="1" max="10" class="form-control">
-    </div>
-  </div>
 
-  <div class="mb-3">
-    <label class="form-label">Rooms (one per line: name,capacity,type)</label>
-    <textarea name="rooms" class="form-control" rows="4" required>R101,60,classroom
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <label class="form-label small">Days per Week</label>
+        <input type="number" name="num_days" value="5" min="1" max="7" class="form-control">
+        <div class="form-text">0 = Monday, 4 = Friday in scheduler.</div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small">Slots per Day</label>
+        <input type="number" name="slots_per_day" value="6" min="1" max="10" class="form-control">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small">Max Classes per Day (per batch)</label>
+        <input type="number" name="max_classes_per_day" value="5" min="1" max="10" class="form-control">
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <label class="form-label small">Rooms <span class="text-muted">(one per line: name,capacity,type)</span></label>
+        <textarea name="rooms" class="form-control app-mono-textarea" rows="5" required>R101,60,classroom
 R102,60,classroom
-LAB1,30,lab
-LAB2,30,lab</textarea>
-    <small class="text-muted">Example: R101,60,classroom</small>
-  </div>
+LAB1,60,lab
+LAB2,60,lab</textarea>
+        <div class="form-text">Example: <code>R101,60,classroom</code></div>
+      </div>
 
-  <div class="mb-3">
-    <label class="form-label">Batches (one per line: name,size)</label>
-    <textarea name="batches" class="form-control" rows="3" required>ECE-A,60
+      <div class="col-lg-6">
+        <label class="form-label small">Batches <span class="text-muted">(one per line: name,size)</span></label>
+        <textarea name="batches" class="form-control app-mono-textarea" rows="5" required>ECE-A,60
 ECE-B,60</textarea>
-    <small class="text-muted">Example: ECE-A,60</small>
-  </div>
+        <div class="form-text">Example: <code>ECE-A,60</code></div>
+      </div>
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label">Subjects (one per line: code,name,batch,classes_per_week,type,faculty)</label>
-    <textarea name="subjects" class="form-control" rows="8" required>EC101,Network Theory,ECE-A,3,theory,Dr. Rao
+    <div class="mt-4">
+      <label class="form-label small">
+        Subjects <span class="text-muted">(one per line: code,name,batch,classes_per_week,type,faculty)</span>
+      </label>
+      <textarea name="subjects" class="form-control app-mono-textarea" rows="8" required>EC101,Network Theory,ECE-A,3,theory,Dr. Rao
 EC101,Network Theory,ECE-B,3,theory,Dr. Rao
 EC102,Signals & Systems,ECE-A,3,theory,Dr. Mehta
 EC102,Signals & Systems,ECE-B,3,theory,Dr. Mehta
 EC103,Analog Circuits Lab,ECE-A,2,lab,Prof. Kiran
 EC103,Analog Circuits Lab,ECE-B,2,lab,Prof. Kiran</textarea>
-    <small class="text-muted">
-      Example: EC101,Network Theory,ECE-A,3,theory,Dr. Rao
-    </small>
-  </div>
+      <div class="form-text">
+        Example: <code>EC101,Network Theory,ECE-A,3,theory,Dr. Rao</code>
+      </div>
+    </div>
 
-  <div class="mb-3">
-    <label class="form-label">
-      Special Fixed Slots (optional: day,slot,batch,subject,room,faculty)
-    </label>
-    <textarea name="special_slots" class="form-control" rows="3">0,1,ECE-A,Department Meeting,SEMINAR,HoD
+    <div class="mt-4">
+      <label class="form-label small">
+        Special Fixed Slots <span class="text-muted">(optional: day,slot,batch,subject,room,faculty)</span>
+      </label>
+      <textarea name="special_slots" class="form-control app-mono-textarea" rows="4">0,1,ECE-A,Department Meeting,SEMINAR,HoD
 2,3,ECE-B,Guest Lecture,SEMINAR,Guest</textarea>
-    <small class="text-muted">
-      day=0..(days-1), slot=0..(slots_per_day-1)
-    </small>
-  </div>
+      <div class="form-text">
+        day = 0..(days-1), slot = 0..(slots_per_day-1)
+      </div>
+    </div>
 
-  <button type="submit" class="btn btn-primary">Generate Timetable</button>
-</form>
+    <div class="mt-4 d-flex justify-content-end">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary me-2">
+        <i class="bi bi-arrow-left"></i> Cancel
+      </a>
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-magic me-1"></i>Generate Timetable
+      </button>
+    </div>
+  </form>
+</div>
 {% endblock %}
